@@ -18,24 +18,24 @@ version: 0.2
 phases:
   pre_build:
     commands:
-    - echo Setting CodeCommit Credentials
-    - git config --global credential.helper '!aws codecommit credential-helper $@'
-    - git config --global credential.UseHttpPath true
-    - echo Copying secrets_config.json to the application directory
-    - cp secrets_config.json $CODEBUILD_SRC_DIR_AppSource/secrets_config.json
-    - echo Switching to the application directory
-    - echo Installing pip and truffleHog
-    - curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py 
-    - python get-pip.py 
-    - pip install truffleHog
+      - echo Setting CodeCommit Credentials
+      - git config --global credential.helper '!aws codecommit credential-helper $@'
+      - git config --global credential.UseHttpPath true
+      - echo Copying secrets_config.json to the application directory
+      - cp secrets_config.json $CODEBUILD_SRC_DIR_AppSource/secrets_config.json
+      - echo Switching to the application directory
+      - echo Installing pip and truffleHog
+      - curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py 
+      - python get-pip.py 
+      - pip install truffleHog
   build:
     commands:
-    - echo Build started on `date`
-    - echo Scanning with truffleHog...          
-    - trufflehog --regex --rules secrets_config.json --entropy=False "$APP_REPO_URL" 
+      - echo Build started on `date`
+      - echo Scanning with truffleHog...          
+      - trufflehog --regex --rules secrets_config.json --entropy=False "$APP_REPO_URL" 
   post_build:
     commands:
-    - echo Build completed on `date`
+      - echo Build completed on `date`
 ```
 
 ## Add the trufflehog regex configuration
